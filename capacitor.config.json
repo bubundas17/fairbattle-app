@@ -1,0 +1,17 @@
+{
+  "appId": "net.fairbattle.app",
+  "appName": "Fair Battle",
+  "bundledWebRuntime": true,
+  "npmClient": "yarn",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false
+  },
+  "server": {
+    "url": "http://192.168.31.18:3000",
+    "hostname": "app",
+    "allowNavigation": [
+      "192.168.31.18"
+    ]
+  }
+}

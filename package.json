@@ -1,0 +1,42 @@
+{
+  "name": "fairbattle-app",
+  "version": "1.0.0",
+  "description": "My world-class Nuxt.js project",
+  "author": "Bubun Das",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build && npx cap copy",
+    "start": "nuxt start",
+    "generate": "nuxt generate --no-srr && npx cap copy"
+  },
+  "dependencies": {
+    "@capacitor/android": "^1.0.0",
+    "@capacitor/cli": "^1.0.0",
+    "@capacitor/core": "^1.0.0",
+    "@mdi/font": "^3.6.95",
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/pwa": "^2.6.0",
+    "add": "^2.0.6",
+    "cordova-plugin-sms-receive": "^1.0.2",
+    "cross-env": "^5.2.0",
+    "local-storage": "^2.0.0",
+    "moment": "^2.24.0",
+    "nuxt": "^2.4.0",
+    "nuxt-client-init-module": "^0.1.4",
+    "nuxt-material-design-icons": "^1.0.4",
+    "vee-validate": "^2.2.7",
+    "vuetify": "^1.5.5",
+    "vuetify-loader": "^1.2.1",
+    "vuex-persistedstate": "^2.5.4",
+    "yarn": "^1.16.0"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.16.4",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2"
+  }
+}
