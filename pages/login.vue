@@ -22,10 +22,9 @@
 
     <v-flex xs12>
       <v-card class="ma-2 login-box">
-        <v-card-title>More</v-card-title>
         <v-card-actions>
-          <v-btn color="green" flat block dark to="/signup">Create An Account</v-btn>
-          <v-btn color="orange" flat block dark to="/forgotpass">Forgot Password?</v-btn>
+          <v-btn color="green" flat block dark to="/signup" outline>Create An Account</v-btn>
+          <v-btn color="orange" flat block dark to="/forgotpass" outline>Forgot Password?</v-btn>
 <!--          <v-btn color="orange" flat block dark @click="test">test</v-btn>-->
         </v-card-actions>
       </v-card>

@@ -1,17 +1,19 @@
-import ls from "local-storage"
-
+const LocalStorage = window.localStorage
+import { FCM } from 'capacitor-fcm'
+const fcm = new FCM()
 
 export const state = () => ({
   user: {},
   loggedIn: false,
   banned: false,
   token: null,
-  pubgUsername: "dfd"
+  pubgUsername: ''
 })
 
 export const mutations = {
-  token: (state, payload) =>{
+  token: (state, payload) => {
     state.token = payload
+    LocalStorage.setItem('token', payload)
   },
 
   user: (state, payload) => {
@@ -26,7 +28,7 @@ export const mutations = {
   addTransaction(state, payload) {
     state.transactions.unshift(payload)
   },
-  pubgUsername(stste, payload){
+  pubgUsername(stste, payload) {
     stste.pubgUsername = payload
   }
 }
@@ -39,6 +41,7 @@ export const actions = {
       let user = await this.$axios.$get('/auth/profile')
       commit('user', user.user)
       commit('loggedIn', true)
+      fcm.subscribeTo({ topic: user.user._id })
     } catch (err) {
       if (err.response) {
         if (err.response.status === 401) {
@@ -47,7 +50,6 @@ export const actions = {
         }
       }
     }
-    await new Promise(resolve => setTimeout(() => {resolve()}, 2000 ))
   },
 
   async updateProfile({ getters, commit }, payload) {
@@ -60,13 +62,13 @@ export const actions = {
   },
   async addMoney({ getters, commit }, payload) {
     commit('addMoney', payload)
-    commit('addTransaction', {
-      name: 'Added Money',
-      status: 1,
-      amount: payload,
-      note: 'money added via UPI',
-      date: new Date()
-    })
+    // commit('addTransaction', {
+    //   name: 'Added Money',
+    //   status: 1,
+    //   amount: payload,
+    //   note: 'money added via UPI',
+    //   date: new Date()
+    // })
     return true
   },
   async withdrawalMoney({ getters, commit }, payload) {
@@ -89,33 +91,33 @@ export const actions = {
         user = await this.$axios.$get('/auth/profile')
         commit('user', user.user)
         commit('loggedIn', true)
-        resolve("User Logged In!")
+        resolve('User Logged In!')
       } catch (e) {
         console.log(e)
-        reject("Invalid Username or Password.")
+        reject('Invalid Username or Password.')
       }
     })
   },
 
-  logout({ getters, commit }){
-    commit("token", null)
+  logout({ getters, commit }) {
+    commit('token', null)
     commit('loggedIn', false)
     commit('user', {})
   },
 
-  token({ getters, commit }, payload){
-    commit("token", payload)
+  token({ getters, commit }, payload) {
+    commit('token', payload)
     this.$axios.setToken(payload, 'Bearer')
   },
-  async reloadProfile({ getters, commit }){
+  async reloadProfile({ getters, commit }) {
     return new Promise(async (resolve, reject) => {
       try {
         let user = await this.$axios.$get('/auth/profile')
         commit('user', user.user)
         commit('loggedIn', true)
-        resolve("User Logged In!")
+        resolve('User Logged In!')
       } catch (e) {
-        reject("Please Login First")
+        reject('Please Login First')
       }
     })
   }
@@ -123,12 +125,13 @@ export const actions = {
 }
 
 export const getters = {
-  pubgUsername(state){
+  pubgUsername(state) {
     return state.pubgUsername
   },
   token(state) {
-    return state.token
+    return state.token || LocalStorage.getItem('token')
   },
+
   user: state => {
     return state.user
   },

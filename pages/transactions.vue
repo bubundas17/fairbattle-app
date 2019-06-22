@@ -1,7 +1,10 @@
 <template>
-  <v-layout>
+  <v-layout column v-if="loading">
+        <Loading></Loading>
+  </v-layout>
+  <v-layout v-else>
     <v-expansion-panel>
-      <template v-for="transaction in transitions">
+      <template v-for="transaction in transactions">
         <v-divider></v-divider>
         <v-expansion-panel-content dark :key="transaction._id"
                                    :class="txnColor(transaction)">
@@ -38,19 +41,22 @@
 </template>
 <script>
   import vuex from 'vuex'
+  import Loading from '../components/Loading'
 
   export default {
+    components: { Loading },
     data() {
       return {
-        transitions: []
+        transactions: [],
+        loading: false
       }
     },
     methods: {
       txnColor(txn) {
-        if (txn.status === 4) {
-          return 'blue-grey'
-        } else if (txn.status === 3) {
-          return 'blue-grey'
+        if (txn.status === 1) {
+          return 'green darken-2'
+        } else if (txn.status === 2) {
+          return 'orange darken-2'
         } else if (txn.amount < 0) {
           return 'red'
         } else if (txn.amount > 0) {
@@ -74,12 +80,14 @@
       // ...vuex.mapGetters(['transactions'])
     },
     async mounted() {
+      this.loading = true
       try {
         let data = await this.$axios.$get('/transitions')
-        this.transitions = data.transitions
+        this.transactions = data.transactions
       } catch (e) {
         this.showAlert('error', 'Something is wrong')
       }
+      this.loading = false
     }
   }
 </script>

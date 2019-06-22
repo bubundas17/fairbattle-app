@@ -8,7 +8,7 @@ export default {
   },
   mode: 'spa',
   router: {
-    mode: 'hash',
+    // mode: 'hash',
     // base: './'
   },
 
@@ -56,7 +56,8 @@ export default {
     '@/plugins/vee-validate',
     '@/plugins/mixins',
     '@/plugins/mdi',
-    '@/plugins/localStorage'
+    '@/plugins/localStorage',
+    '@/plugins/client-init'
   ],
 
   /*
@@ -65,8 +66,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    'nuxt-client-init-module'
+    '@nuxtjs/pwa'
   ],
   /*
   ** Axios module configuration

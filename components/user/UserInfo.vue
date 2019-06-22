@@ -11,7 +11,7 @@
 
             </v-flex>
             <v-flex xs9>
-                <h1 class="body-2 white--text mt-4">Username {{ user.name }}</h1>
+                <h1 class="body-2 white--text mt-4">{{ user.name }}</h1>
                 <h2 class="body-1 mt-1 white--text">{{ user.email }}</h2>
             </v-flex>
         </v-layout>

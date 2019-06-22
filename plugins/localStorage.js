@@ -1,7 +1,7 @@
 import createPersistedState from 'vuex-persistedstate'
 
 export default ({ store }) => {
-  window.onNuxtReady(() => {
+  // window.onNuxtReady(() => {
   try {
     createPersistedState({
       key: 'storage',
@@ -12,8 +12,8 @@ export default ({ store }) => {
       ]
     })(store)
   } catch (e) {
-    console.log("Local Storage Not Available")
+    console.log('Local Storage Not Available')
   }
 
-  })
+  // })
 }
