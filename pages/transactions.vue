@@ -82,7 +82,7 @@
     async mounted() {
       this.loading = true
       try {
-        let data = await this.$axios.$get('/transitions')
+        let data = await this.$axios.$get('/transaction')
         this.transactions = data.transactions
       } catch (e) {
         this.showAlert('error', 'Something is wrong')

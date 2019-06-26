@@ -98,7 +98,7 @@
         this.$validator.validate().then(async valid => {
           if (valid) {
             try {
-              let res = await this.$axios.$post('/transitions/withdrawal', {
+              let res = await this.$axios.$post('/transaction/withdrawal', {
                 method: this.withdrawalMethod,
                 upi: this.upi,
                 paytm: this.paytmNumber,

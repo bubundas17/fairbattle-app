@@ -7,7 +7,8 @@ export const state = () => ({
   loggedIn: false,
   banned: false,
   token: null,
-  pubgUsername: ''
+  pubgUsername: '',
+  ver: '1.0.0'
 })
 
 export const mutations = {
