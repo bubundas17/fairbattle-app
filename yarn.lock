@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@angular/core@^8.1.3":
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.1.3.tgz#3b12cf3785419c573cd54116ba80fc798f75448a"
+  integrity sha512-45ocymDkXhmgluhaIX/O6IgqGPCLOlSYEXYpJ660QS1JgprKU7Ae9mWiNSmbBmT0OGV/sKKF8SNMQAGOHgio6Q==
+  dependencies:
+    tslib "^1.9.0"
+
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -730,6 +737,34 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@ionic-native/core@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-5.10.0.tgz#aa475f846490d0e748bf2172e3070878984dab11"
+  integrity sha512-HssaJBkXKVeQ5u0ejBmlzwsft5bwmtu2ZrsTVtK6jYiNm7Bez55II7c0cxcxs44l5wLu6uKuw/Ynt2vaZ2ngfg==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file-opener@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file-opener/-/file-opener-5.10.0.tgz#e06177c2a33ea11d41c8f1de892509d72c30138f"
+  integrity sha512-KoL81qwmFfjm+dqlYx9sCnHOwwd8TWj7ip/81TVmS2D5D/gAlljVNPUBYepTdsqSxpCGaU3wUgF18NjLOKyiQQ==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file-transfer@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file-transfer/-/file-transfer-5.10.0.tgz#8fbb2d963d621950baeee152134cbaceb118a389"
+  integrity sha512-ovr7TuCUVSCJwWs3wakHkX833IgbDbflnWQJQKonsclYu+w0CzbPpjhfCFm9D0hpWot554d8SJbL8dp0OdrYGw==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file/-/file-5.10.0.tgz#57de147a9657caf42cffa9727c0d19b1e74c9c13"
+  integrity sha512-B0rrsM3voWOM1Vx6KR0XoCeQhrLKaTN80qXUGHlckqheRIEfGWaFGYMNYVDmDC439U5Fdv9rTDW2NiD/9x/rww==
+  dependencies:
+    "@types/cordova" latest
+
 "@jimp/bmp@^0.5.4":
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/@jimp/bmp/-/bmp-0.5.4.tgz#b7b375aa774f26154912569864d5466e71333ef1"
@@ -1292,6 +1327,11 @@
     cookie "^0.3.1"
     mustache "^2.3.0"
     stack-trace "0.0.10"
+
+"@types/cordova@latest":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/cordova/-/cordova-0.0.34.tgz#ea7addf74ecec3d7629827a0c39e2c9addc73d04"
+  integrity sha1-6nrd907Ow9dimCegw54smt3HPQQ=
 
 "@types/node@^8.0.7":
   version "8.10.48"
@@ -2254,10 +2294,10 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000939, caniuse-lite@^1.0.30000957, can
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000969.tgz#7664f571f2072657bde70b00a1fc1ba41f1942a9"
   integrity sha512-Kus0yxkoAJgVc0bax7S4gLSlFifCa7MnSZL9p9VuS/HIKEL4seaqh28KIQAAO50cD/rJ5CiJkJFapkdDAlhFxQ==
 
-capacitor-fcm@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/capacitor-fcm/-/capacitor-fcm-0.0.6.tgz#2b9c10fc11e9b0a58591cdda42ccca008c5b62f0"
-  integrity sha512-jqtQ2QKglT/Oq75TMBsDUeZ9i4sf3DnqoWfOn3uibzmkepoG7XpoSZDevvtr8AGSnlfHjdFyiOV0UD07QNOBlw==
+capacitor-fcm@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/capacitor-fcm/-/capacitor-fcm-0.0.7.tgz#2671d7b4aae66cc56691b7c39dd0726c17052cdb"
+  integrity sha512-/ePaE1BGa/0ExaeaBi5uKkjL3dhXkj4Bl3vYvzjgH9BUjVHnBrkjBak9wvMHXiAghdCqntorxSdkw+OJroZ/Kg==
   dependencies:
     "@capacitor/core" latest
 
@@ -2469,10 +2509,10 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-com.razorpay.cordova@^1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/com.razorpay.cordova/-/com.razorpay.cordova-1.4.5.tgz#619764bc79d8e056f4a74876ebd0aadbb9a460df"
-  integrity sha512-kRIzBRRxB/cYkuJPxbOAcmgvOWOSZz2BNJas9lVyyaeuJxsZk69CcT+iDNApusmobDdIZ2IGRjBlR2OrOrrPMw==
+com.razorpay.cordova@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/com.razorpay.cordova/-/com.razorpay.cordova-1.4.6.tgz#34526c9b6d0d1792f7374de060ad9d77dc5725f4"
+  integrity sha512-juerR6zhJFozCLFTzJe8ffh9IS5oZQLT6o8M1VmAPp1D3shXJ21pagFXvHXTknTEbY7q2gbI/ZQ95WtoPVDevA==
 
 combined-stream@^1.0.6:
   version "1.0.8"
@@ -2658,10 +2698,30 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
+cordova-plugin-file-opener2@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file-opener2/-/cordova-plugin-file-opener2-2.2.1.tgz#9e422bc5e215d8eca0338ed5cd357b64b027440b"
+  integrity sha512-yeN242U6T+TDlrJ5m00br+lAKsf2fHXn1u1TsDxB5fFUGINZUYLKthEctCMFkQUnURWk+Nh6tc+WtdQjY581Uw==
+
+cordova-plugin-file-transfer@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file-transfer/-/cordova-plugin-file-transfer-1.7.1.tgz#a75d8be2ebc3bb9b23c5b1bbd199214ec267586b"
+  integrity sha1-p12L4uvDu5sjxbG70ZkhTsJnWGs=
+
+cordova-plugin-file@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file/-/cordova-plugin-file-6.0.2.tgz#f3911479f8357e9aacb5576674f8d95b31a1fb20"
+  integrity sha512-m7cughw327CjONN/qjzsTpSesLaeybksQh420/gRuSXJX5Zt9NfgsSbqqKDon6jnQ9Mm7h7imgyO2uJ34XMBtA==
+
 cordova-plugin-sms-receive@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-sms-receive/-/cordova-plugin-sms-receive-1.0.2.tgz#6060bec36c90414d91164cf6e2660db698c8f0a7"
   integrity sha512-y2QMX709RgrbCHVDHAewjvXi50h+u+VcuCQADPJS+tH/BosFie+x1vo5mMwysuIEiaQ25b0qhIzo63RCyT5Fyw==
+
+cordova-plugin-whitelist@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-whitelist/-/cordova-plugin-whitelist-1.3.4.tgz#31938545c7c3e7de35c20ab08c2c3afa06e8a3f9"
+  integrity sha512-EYC5eQFVkoYXq39l7tYKE6lEjHJ04mvTmKXxGL7quHLdFPfJMNzru/UYpn92AOfpl3PQaZmou78C7EgmFOwFQQ==
 
 core-js-compat@^3.0.0:
   version "3.1.0"

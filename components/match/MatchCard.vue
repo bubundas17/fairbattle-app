@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-card class="ma-1">
     <v-layout row>
       <v-card-text class="match-image">
@@ -18,29 +18,34 @@
       <v-layout row wrap>
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">WIN PRIZE</p>
-          <p class="body-2 font-weight-bold ">{{ '₹' + match.wining }}</p>
+          <p class="body-2 font-weight-bold ">
+            <faircoin-icon/>
+            {{ match.wining }}</p>
         </v-flex>
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">PER KILL</p>
-          <p class="body-2 font-weight-bold">{{ '₹' + match.perKill }}</p>
+          <p class="body-2 font-weight-bold"><faircoin-icon/>{{  match.perKill }}</p>
         </v-flex>
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">ENTRY FEES</p>
-          <p class="body-2 font-weight-bold">{{ '₹' + match.entryFees }}</p>
+          <p class="body-2 font-weight-bold"><faircoin-icon/>{{ match.entryFees }}</p>
         </v-flex>
 
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">TEAM</p>
           <p class="body-2 font-weight-bold">{{ match.team }}</p>
         </v-flex>
+
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">TYPE</p>
           <p class="body-2 font-weight-bold">{{match.type }}</p>
         </v-flex>
+
         <v-flex xs4 class="text-xs-center">
           <p class="body-1 mb-0 grey--text lighten-3">MAP</p>
           <p class="body-2 font-weight-bold">{{ match.map }}</p>
         </v-flex>
+
       </v-layout>
     </v-card-title>
 
@@ -52,29 +57,9 @@
         {{ match.joined }}/{{ match.maxPlayers }}
       </v-chip>
 
-      <v-dialog v-model="dialog" persistent max-width="290">
-        <template v-slot:activator="">
-          <v-btn flat @click.prevent="dialog = true" :class=" canJoin ? 'teal' :  match.userJoined ? 'green':'red'"
-                 class="ma-1" dark
-                 :disabled="!canJoin"> {{
-            joinBtnText }}
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="headline">Join Match</v-card-title>
-          <v-card-text>
-            <p class="body-1">Please Enter your PUBG Username To Join the match.</p>
-            <v-text-field label="Pubg Username" v-model="pubgUsername"></v-text-field>
-            <p class="body-1">Please Make sure the username is correct.</p>
-            <v-checkbox label="Remember This Username" v-model="rememberUsername"></v-checkbox>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="red darken-1" flat @click="dialog = false">Cancel</v-btn>
-            <v-btn color="green darken-1" flat @click="joinMatch">Join Match</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <JoinMatchDialog :can-join="canJoin" :dialog="dialog" :join-match="joinMatch" :match="match"
+                    :pubg-username="pubgUsername" :remember-username="rememberUsername" :joinBtnText="joinBtnText"/>
+
     </v-card-actions>
     <template v-if="showActions">
       <v-card-actions v-if="match.userJoined && (match.status === 2 || match.status === 1) && match.showRoomInfo">
@@ -85,11 +70,15 @@
   </v-card>
 </template>
 <script>
-  import { Plugins } from '@capacitor/core';
+  import {Plugins} from '@capacitor/core';
+  import JoinMatchDialog from "./JoinMatchDialog";
+  import FaircoinIcon from "../FaircoinIcon";
+
   const { LocalNotifications } = Plugins;
 
   export default {
     name: 'MatchCard',
+    components: {FaircoinIcon, JoinMatchDialog},
     props: {
       match: {},
       showActions: {
@@ -126,7 +115,7 @@
             this.$store.commit("pubgUsername", this.pubgUsername)
           }
           await this.$axios.$post('/matches/' + this.match._id + '/join', { pubgUsername: this.pubgUsername })
-          this.dialog = false
+          this.dialog = false;
           try {
             await LocalNotifications.schedule({
               notifications: [
@@ -134,7 +123,7 @@
                   title: `${this.match.name} - Match #${this.match.count}`,
                   body: "The Match Will Start In 15 Minutes! Room ID and Password Will be Sent Soon!",
                   id: this.match.count,
-                  schedule: { at: new Date( new Date(this.match.date) - 1000 * 60 * 15) },
+                  schedule: { at: new Date( new Date(this.match.date) - 1000 * 60 * 15) },  // 15 minits before the match
                   sound: null,
                   attachments: null,
                   actionTypeId: "",

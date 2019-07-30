@@ -1,7 +1,14 @@
 <template>
   <v-layout column wrap>
+
+    <update-available></update-available>
+
     <v-flex xs12 v-if="loading">
       <Loading></Loading>
+    </v-flex>
+
+    <v-flex v-else-if="! matches.length">
+      <not-found/>
     </v-flex>
 
     <v-flex xs12 v-for="match in matches" :key="match.index" v-else>
@@ -18,9 +25,11 @@
   import vuex from 'vuex'
   import Loading from '../components/Loading'
   import MatchCard from '../components/match/MatchCard'
+  import NotFound from "../components/NotFound";
+  import UpdateAvailable from "../components/updateAvailable";
 
   export default {
-    components: { MatchCard, Loading },
+    components: {UpdateAvailable, NotFound, MatchCard, Loading },
     middleware: 'loggedin',
     name: 'Matches',
     data() {
@@ -30,7 +39,7 @@
       }
     },
     computed: {
-      ...vuex.mapGetters(['matches'])
+      ...vuex.mapGetters(["updateAvailable"])
     },
     methods: {
       calculateProgress(total, joined) {

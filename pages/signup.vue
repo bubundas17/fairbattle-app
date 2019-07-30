@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex xs12>
       <v-card class="ma-2 login-box">
-        <v-card-title>Create An Account</v-card-title>
+        <v-card-title class="secondary"><h1 class="title white--text">Create An Account</h1></v-card-title>
         <v-card-text>
           <form>
             <v-text-field
@@ -90,7 +90,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
-          <v-btn color="teal" dark @click="signup">Signup</v-btn>
+          <v-btn flat color="success" dark @click="signup" light>Signup
+            <v-icon right>mai-account-plus</v-icon>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -98,8 +100,13 @@
 </template>
 
 <script>
-  let oldcount = 120
-  let count = oldcount
+  import {ErrorBag} from 'vee-validate';
+  import {Plugins,} from '@capacitor/core'
+  const {Device} = Plugins;
+
+  let validTimeout = null;
+  let oldcount = 120;
+  let count = oldcount;
   // import OTPAutoVerification from 'cordova-plugin-otp-auto-verification'
 
   export default {
@@ -116,14 +123,15 @@
         password: '',
         otp: null,
         referral: '',
+        uuid: 'default',
         sendotptext: 'Send Otp',
         disableOtpBtn: false,
         showSendOtp: false,
-        showPass: false
+        showPass: false,
       }
     },
-
     methods: {
+
       async signup() {
         this.$validator.validate().then(async valid => {
           if (valid) {
@@ -135,27 +143,44 @@
                 password: this.password,
                 otp: this.otp,
                 phone: this.phoneNumber,
-                referral
-              })
-              this.$store.dispatch('token', data.token)
+                referral: this.referral,
+                uuid: this.uuid
+              });
+              this.$store.dispatch('token', data.token);
               this.$store.dispatch('reloadProfile')
             } catch (e) {
-
+              console.log(e)
             }
             // do stuff if not valid.
           }
+          console.log("Form Is not valid")
         })
       },
+      addError(fieldName, error, isVlied = false) {
+        let key = "email";
+        const field = this.$validator.fields.find({name: fieldName, scope: this.$options.scope});
+        this.$validator.errors.add({
+          id: field.id,
+          field: fieldName,
+          msg: error,
+          scope: this.$options.scope,
+        });
 
-      startSmsListening(){
-        let self = this
+        field.setFlags({
+          invalid: true,
+          valid: false,
+          validated: isVlied,
+        });
+      },
+      startSmsListening() {
+        let self = this;
         try {
           console.log('Trying to register sms');
           SMSReceive.startWatch();
-          document.addEventListener('onSMSArrive', function(e) {
+          document.addEventListener('onSMSArrive', function (e) {
             let IncomingSMS = e.data;
-            if (String(IncomingSMS.address).includes("ETRNMT")){
-              let otp =  IncomingSMS.body.match(/\b\d{5}\b/g);
+            if (String(IncomingSMS.address).includes("ETRNMT")) {
+              let otp = IncomingSMS.body.match(/\b\d{5}\b/g);
               self.otp = otp[0];
 
               self.stopSmsListening()
@@ -166,7 +191,7 @@
           console.warn('Error In Listening SMS');
         }
       },
-      stopSmsListening(){
+      stopSmsListening() {
         try {
           SMSReceive.stopWatch();
         } catch (e) {
@@ -177,7 +202,7 @@
         try {
           this.sendotptext = 'Sending OTP'
           this.disableOtpBtn = true
-          let data = await this.$axios.$post('/auth/requestotp', { phone: this.phoneNumber })
+          let data = await this.$axios.$post('/auth/requestotp', {phone: this.phoneNumber})
           this.sendotptext = 'OTP SENT!'
           this.otp = true
           this.startSmsListening()
@@ -201,20 +226,81 @@
       }
     },
     watch: {
-      phoneNumber(value) {
+      async username(value) {
+        let isValied = await this.$validator.validate('username');
+        if (isValied) {
+          clearTimeout(validTimeout);
+          validTimeout = setTimeout(async _ => {
+            let used = await this.$axios.$get("auth/checkAvailability", {
+              params: {
+                username: value
+              }
+            });
+
+            if (used.used) {
+              return this.addError("username", "The Username is already taken, Please try logging in instead")
+            }
+          }, 200);
+        }
+      },
+      async email(value) {
+        let isValied = await this.$validator.validate('email');
+        if (isValied) {
+          clearTimeout(validTimeout);
+          validTimeout = setTimeout(async _ => {
+            let used = await this.$axios.$get("auth/checkAvailability", {
+              params: {
+                email: value
+              }
+            });
+
+            if (used.used) {
+              return this.addError("email", "The email is already used")
+            }
+          }, 200);
+        }
+      },
+
+      async phoneNumber(value) {
         if (value.length === 10) {
+          clearTimeout(validTimeout);
+          validTimeout = setTimeout(async _ => {
+            let used = await this.$axios.$get("auth/checkAvailability", {
+              params: {
+                phone: value
+              }
+            });
+
+            if (used.used) {
+              return this.addError("phone", "The Phone Number Is Already Used")
+            }
+          }, 200);
+
+
           this.showSendOtp = true
+
         } else {
           this.showSendOtp = false
         }
       },
       isLoggedIn(value) {
-        let self = this
+        let self = this;
         if (value) self.$router.push('/')
       }
+
+
     },
-    beforeDestroy(){
+    beforeDestroy() {
       this.stopSmsListening()
+    },
+    async mounted() {
+      try {
+        const info = await Device.getInfo();
+        this.uuid = info.uuid;
+      } catch (e) {
+
+      }
+
     }
   }
 </script>

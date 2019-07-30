@@ -3,7 +3,9 @@
     <v-flex xs12 v-if="loading">
       <Loading></Loading>
     </v-flex>
-
+    <v-flex v-else-if="! matches.length">
+      <join-a-match-first/>
+    </v-flex>
     <v-flex xs12 v-for="match in matches" :key="match.index" v-else>
       <nuxt-link :to="'/matches/' + match._id">
         <MatchCard :match="match"></MatchCard>
@@ -17,9 +19,10 @@
   import vuex from 'vuex'
   import Loading from '../components/Loading'
   import MatchCard from '../components/match/MatchCard'
+  import JoinAMatchFirst from "../components/JoinMatchFirst";
 
   export default {
-    components: { MatchCard, Loading },
+    components: {JoinAMatchFirst, MatchCard, Loading },
     middleware: 'loggedin',
     data() {
       return {

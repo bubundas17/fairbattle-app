@@ -1,23 +1,27 @@
 <template>
   <v-app>
-
     <v-toolbar
       fixed
       app
-      color="#8e44ad"
+      color="accent"
       dark
     >
+      <img src="../assets/images/icons/logo.svg" height="40px">
       <v-toolbar-title v-text="title"/>
       <v-spacer/>
-      <nuxt-link to="/wallet" v-if="user.credits">
-        <v-chip color="white" light class="font-weight-bold">₹{{ user.credits }}</v-chip>
+      <nuxt-link to="/redeem" v-if="user.credits && !appUpdateRequired">
+        <v-chip color="white" light class="font-weight-bold">
+          <v-avatar>
+            <img src="@/assets/images/icons/fair-coin.svg" alt="trevor">
+          </v-avatar>
+          {{ user.credits }}</v-chip>
       </nuxt-link>
     </v-toolbar>
 
     <v-content class="main-container">
       <nuxt/>
       <alerts/>
-      <bottom-nav v-if="isLoggedIn" :matches="matches" :ongoing="ongoing" :profile-click="profileClick"
+      <bottom-nav v-if="isLoggedIn && !appUpdateRequired" :matches="matches" :ongoing="ongoing" :profile-click="profileClick"
                   :results="results" :participated="participated"/>
     </v-content>
 
@@ -25,6 +29,7 @@
 </template>
 
 <script>
+  import vuex from "vuex"
   import {
     Plugins,
     PushNotification,
@@ -45,8 +50,11 @@
     components: { Alerts, BottomNav },
     data() {
       return {
-        title: 'Fair Battle'
+        title: 'FairBattle'
       }
+    },
+    computed: {
+      ...vuex.mapGetters([])
     },
     methods: {
       profileClick() {
@@ -68,9 +76,9 @@
     watch: {
       async isLoggedIn(val) {
         if (val !== true) {
-          this.$router.push('/')
+          this.$router.push('/');
           try {
-            await fcm.subscribeTo({topic: 'loggedin'})
+            await fcm.subscribeTo({topic: 'loggedin'});
             await fcm.unsubscribeFrom({topic: 'notloggedin'})
           } catch (e) {
             console.warn(e)
@@ -90,12 +98,12 @@
     },
     async mounted() {
       try {
-        await SplashScreen.hide()
-        await StatusBar.setBackgroundColor({ color: '#8e44ad' })
-        console.log('Initializing HomePage')
+        await SplashScreen.hide();
+        await StatusBar.setBackgroundColor({ color: '#8e0038' });
+        console.log('Initializing HomePage');
 
         // Register with Apple / Google to receive push via APNS/FCM
-        await PushNotifications.register()
+        await PushNotifications.register();
         await fcm.subscribeTo({ topic: 'general' })
 
 
@@ -133,8 +141,33 @@
 </script>
 
 <style>
+  .page-enter-active {
+    transition: all .05s ease-out;
+  }
+  .page-leave-active {
+    transition: all .05s ease-in;
+  }
+
+  .page-leave-active {
+    /*background: red;*/
+    opacity: 0;
+    transform: translateX(-20px);
+
+    /*position: fixed;*/
+    /*right: -50px;*/
+  }
+  .page-enter-active{
+    /*transform: scale(0);*/
+    /*background: blue;*/
+    position: fixed;
+    opacity: 0;
+    transform: translateX(20px);
+    /*position: fixed;*/
+    /*left: -52px;*/
+  }
+
   .main-container {
-    background: #2c3e50;
+    background: #E1E2E1;
   }
 
   a {

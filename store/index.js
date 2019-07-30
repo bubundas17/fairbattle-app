@@ -1,6 +1,8 @@
-const LocalStorage = window.localStorage
-import { FCM } from 'capacitor-fcm'
-const fcm = new FCM()
+const LocalStorage = window.localStorage;
+import {FCM} from 'capacitor-fcm'
+
+const fcm = new FCM();
+let packege = require("../package");
 
 export const state = () => ({
   user: {},
@@ -8,17 +10,27 @@ export const state = () => ({
   banned: false,
   token: null,
   pubgUsername: '',
-  ver: '1.0.0'
-})
+  ver: '1.0.0',
+  settings: {
+    release: {
+      value: "1.0.0",
+      meta: {}
+    }
+  }
+});
 
 export const mutations = {
   token: (state, payload) => {
-    state.token = payload
+    state.token = payload;
     LocalStorage.setItem('token', payload)
   },
 
+  settings: (state, payload) => {
+    state.settings = payload;
+  },
+
   user: (state, payload) => {
-    state.user = { ...state.user, ...payload }
+    state.user = {...state.user, ...payload}
   },
   addMoney(state, payload) {
     state.user.credits += parseInt(payload)
@@ -32,28 +44,30 @@ export const mutations = {
   pubgUsername(stste, payload) {
     stste.pubgUsername = payload
   }
-}
+};
 
 export const actions = {
-  async nuxtClientInit({ commit, getters }, context) {
-    this.$axios.setToken(getters['token'], 'Bearer')
-    if (!getters['token']) return
+  async nuxtClientInit({commit, getters}, context) {
+    this.$axios.setToken(getters['token'], 'Bearer');
+    let settings = await this.$axios.$get("/");
+    commit("settings", settings.data);
+    if (!getters['token']) return;
     try {
-      let user = await this.$axios.$get('/auth/profile')
-      commit('user', user.user)
-      commit('loggedIn', true)
-      fcm.subscribeTo({ topic: user.user._id })
+      let user = await this.$axios.$get('/auth/profile');
+      commit('user', user.user);
+      commit('loggedIn', true);
+      fcm.subscribeTo({topic: user.user._id})
     } catch (err) {
       if (err.response) {
         if (err.response.status === 401) {
-          commit('token', null)
+          commit('token', null);
           commit('loggedIn', false)
         }
       }
     }
   },
 
-  async updateProfile({ getters, commit }, payload) {
+  async updateProfile({getters, commit}, payload) {
     return new Promise((resolve, reject) => {
       commit('user', payload)
       setTimeout(() => {
@@ -61,7 +75,7 @@ export const actions = {
       }, 500)
     })
   },
-  async addMoney({ getters, commit }, payload) {
+  async addMoney({getters, commit}, payload) {
     commit('addMoney', payload)
     // commit('addTransaction', {
     //   name: 'Added Money',
@@ -72,7 +86,7 @@ export const actions = {
     // })
     return true
   },
-  async withdrawalMoney({ getters, commit }, payload) {
+  async withdrawalMoney({getters, commit}, payload) {
     commit('addMoney', -payload.amount)
     commit('addTransaction', {
       name: 'Money withdrawn',
@@ -80,13 +94,13 @@ export const actions = {
       amount: -parseInt(payload.amount),
       note: 'money added via UPI, to ' + payload.upi,
       date: new Date()
-    })
+    });
     return true
   },
-  async login({ getters, commit }, payload) {
+  async login({getters, commit}, payload) {
     return new Promise(async (resolve, reject) => {
       try {
-        let user = await this.$axios.$post('/auth/login', { ...payload })
+        let user = await this.$axios.$post('/auth/login', {...payload})
         commit('token', user.token)
         this.$axios.setToken(user.token, 'Bearer')
         user = await this.$axios.$get('/auth/profile')
@@ -100,17 +114,17 @@ export const actions = {
     })
   },
 
-  logout({ getters, commit }) {
+  logout({getters, commit}) {
     commit('token', null)
     commit('loggedIn', false)
     commit('user', {})
   },
 
-  token({ getters, commit }, payload) {
+  token({getters, commit}, payload) {
     commit('token', payload)
     this.$axios.setToken(payload, 'Bearer')
   },
-  async reloadProfile({ getters, commit }) {
+  async reloadProfile({getters, commit}) {
     return new Promise(async (resolve, reject) => {
       try {
         let user = await this.$axios.$get('/auth/profile')
@@ -123,9 +137,21 @@ export const actions = {
     })
   }
 
-}
+};
 
 export const getters = {
+  updateAvailable(state) {
+    return state.ver < state.settings.release.value;
+  },
+  appLatestVersion(state) {
+    return state.settings.release.value;
+  },
+  appUpdateRequired(state) {
+    return state.ver < state.settings.release.value && state.settings.release.meta.required;
+  },
+  latestReleaseInfo(state){
+    return state.settings.release;
+  },
   pubgUsername(state) {
     return state.pubgUsername
   },

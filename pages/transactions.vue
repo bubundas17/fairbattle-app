@@ -1,42 +1,52 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-layout column v-if="loading">
-        <Loading></Loading>
+    <Loading></Loading>
   </v-layout>
   <v-layout v-else>
-    <v-expansion-panel>
-      <template v-for="transaction in transactions">
-        <v-divider></v-divider>
-        <v-expansion-panel-content dark :key="transaction._id"
-                                   :class="txnColor(transaction)">
-          <template v-slot:header>
-            <v-card flat :class="txnColor(transaction)" dark>
-              <v-card-actions>{{transaction.title}}
-                <v-spacer/>
-                {{ transaction.amount }}
-              </v-card-actions>
+
+    <v-card class="ma-1">
+      <v-card-title class="primary white--text"><h1 class="title">Transactions</h1></v-card-title>
+      <v-expansion-panel>
+        <template v-for="transaction in transactions">
+          <v-divider></v-divider>
+          <v-expansion-panel-content dark class="mx-2" :key="transaction._id"
+                                     :class="txnColor(transaction)">
+            <template v-slot:header>
+              <v-card flat :class="txnColor(transaction)" dark>
+                <v-card-actions>{{transaction.title}}
+                  <v-spacer/>
+                  {{ transaction.amount }}
+                </v-card-actions>
+              </v-card>
+
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-flex xs6 class="body-2">
+                    Status: {{ statusText(transaction) }}
+                  </v-flex>
+                  <v-flex xs6>
+                    <span class="body-2">TXN ID: {{ transaction.txnId }}</span>
+                  </v-flex>
+                  <v-flex xs6 class="body-2">
+                    Date:
+                  </v-flex>
+                  <v-flex xs6 class="body-2">
+                    {{ transaction.date | formatDate }}
+                  </v-flex>
+                </v-layout>
+                <p class="body-2" v-if="transaction.note">
+                  More info:
+                </p>
+                <p class="body-1" v-if="transaction.note">{{ transaction.note }}</p>
+              </v-card-text>
             </v-card>
+          </v-expansion-panel-content>
+        </template>
+      </v-expansion-panel>
+    </v-card>
 
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-layout row wrap>
-                <v-flex xs6>
-                  Status: {{ statusText(transaction) }}
-                </v-flex>
-                <v-flex xs6>
-                  Date: {{ transaction.date | formatDate }}
-                </v-flex>
-              </v-layout>
-              <p class="body-2" v-if="transaction.note">
-                More info:
-              </p>
-              <p class="body-1" v-if="transaction.note">{{ transaction.note }}</p>
-            </v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-      </template>
-
-    </v-expansion-panel>
   </v-layout>
 </template>
 <script>
@@ -44,7 +54,7 @@
   import Loading from '../components/Loading'
 
   export default {
-    components: { Loading },
+    components: {Loading},
     data() {
       return {
         transactions: [],
@@ -53,12 +63,12 @@
     },
     methods: {
       txnColor(txn) {
-        if (txn.status === 1) {
-          return 'green darken-2'
+        if (txn.amount > 0) {
+          return 'green darken-3'
+        } else if (txn.amount < 0) {
+          return 'red darken-3'
         } else if (txn.status === 2) {
           return 'orange darken-2'
-        } else if (txn.amount < 0) {
-          return 'red'
         } else if (txn.amount > 0) {
           return 'green'
         }

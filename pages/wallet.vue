@@ -1,9 +1,9 @@
 <template>
-  <v-card>
-    <v-card-title> Wallet
-
+  <v-card class="ma-1">
+    <v-card-title class="secondary">
+      <h1 class="title white--text">Wallet</h1>
     </v-card-title>
-    <v-tabs v-model="active" centered color="cyan" dark slider-color="yellow">
+    <v-tabs v-model="active" centered color="primary" dark slider-color="yellow">
       <v-tab ripple>Add Money</v-tab>
       <v-tab ripple> Withdrawal</v-tab>
       <v-tab ripple> Transfer</v-tab>
@@ -12,7 +12,7 @@
         <addMoneyBox/>
       </v-tab-item>
       <v-tab-item>
-        <WithdrawlMoney />
+        <WithdrawlMoney/>
       </v-tab-item>
       <v-tab-item>
         <v-card flat>
@@ -38,7 +38,7 @@
 
   export default {
     name: 'Wallet',
-    components: { WithdrawlMoney, AddMoneyBox },
+    components: {WithdrawlMoney, AddMoneyBox},
 
     data() {
       return {
@@ -51,7 +51,7 @@
     methods: {
 
       withdrawalMoney() {
-        this.$store.dispatch('withdrawalMoney', { amount: this.withdraw, upi: this.upi })
+        this.$store.dispatch('withdrawalMoney', {amount: this.withdraw, upi: this.upi})
       }
     }
   }

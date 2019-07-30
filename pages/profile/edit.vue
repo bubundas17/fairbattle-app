@@ -1,7 +1,7 @@
 <template>
     <v-layout column wrap>
         <v-card class="ma-1">
-            <v-card-title><h1 class="title">Edit Profile</h1></v-card-title>
+            <v-card-title class="secondary"><h1 class="title white--text">Edit Profile</h1></v-card-title>
             <v-card-text>
                 <v-text-field v-model="userdata.name" label="Name" required/>
                 <v-text-field v-model="userdata.username" label="Username" disabled/>
@@ -10,12 +10,12 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>
-                <v-btn flat class="teal" dark @click="updateUser" :loading="loading" :disabled="loading">Save</v-btn>
+                <v-btn flat color="primary" dark @click="updateUser" :loading="loading" :disabled="loading">Save<v-icon right>mdi-content-save</v-icon></v-btn>
             </v-card-actions>
         </v-card>
 
         <v-card class="ma-1">
-            <v-card-title><h1 class="title">Change Password</h1></v-card-title>
+            <v-card-title class="secondary"><h1 class="title white--text">Change Password</h1></v-card-title>
             <v-card-text>
                 <v-text-field v-model="oldPass" label="Old Password" required/>
                 <v-text-field v-model="newPass" label="New Password"/>
@@ -23,7 +23,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>
-                <v-btn flat class="teal" dark>Save</v-btn>
+                <v-btn flat color="primary" dark>Change Password<v-icon right>mdi-lock-reset</v-icon></v-btn>
             </v-card-actions>
         </v-card>
     </v-layout>

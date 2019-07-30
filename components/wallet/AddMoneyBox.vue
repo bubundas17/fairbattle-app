@@ -7,7 +7,7 @@
                 <v-text-field
                   label="Enter Amount"
                   type="number"
-                  v-validate="'required|max_value:10000|min_value:5'"
+                  v-validate="'required|max_value:10000|min_value:1'"
                   data-vv-name="money"
                   v-model="rechargeAmount"
                   :error-messages="errors.collect('money')"

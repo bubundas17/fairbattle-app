@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-layout row wrap>
     <v-flex xs12 v-if="loading">
       <Loading></Loading>
@@ -56,7 +56,7 @@
                 <td>{{ props.item.pubgUsername }}</td>
                 <td class="text-xs-center">{{ props.item.kills }}</td>
                 <td class="text-xs-center"><v-btn flat icon><v-icon :color="props.item.won ? 'orange' : 'blue-grey lighten-5'">mdi-star-circle</v-icon></v-btn></td>
-                <td class="text-xs-center">₹{{ props.item.prize }}</td>
+                <td class="text-xs-center"><faircoin-icon/>{{ props.item.prize }}</td>
                 <!--                <td class="text-xs-right">{{ props.item.fat }}</td>-->
                 <!--                <td class="text-xs-right">{{ props.item.carbs }}</td>-->
                 <!--                <td class="text-xs-right">{{ props.item.protein }}</td>-->
@@ -83,10 +83,11 @@
 <script>
   import Loading from '../../components/Loading'
   import MatchCard from '../../components/match/MatchCard'
+  import FaircoinIcon from "../../components/FaircoinIcon";
 
   export default {
     name: '_id',
-    components: { MatchCard, Loading },
+    components: {FaircoinIcon, MatchCard, Loading },
     data() {
       return {
         loading: false,

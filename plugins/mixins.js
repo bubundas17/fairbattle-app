@@ -3,7 +3,7 @@ import vuex from "vuex"
 
 Vue.mixin({
     computed: {
-        ...vuex.mapGetters(["user", "isLoggedIn"])
+        ...vuex.mapGetters(["user", "isLoggedIn", "updateAvailable", "appUpdateRequired"])
     },
     // mounted() {
     //     if(this.isLoggedIn) {

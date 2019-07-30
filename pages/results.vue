@@ -3,7 +3,9 @@
     <v-flex xs12 v-if="loading">
       <Loading></Loading>
     </v-flex>
-
+    <v-flex v-else-if="! matches.length">
+      <not-found/>
+    </v-flex>
     <v-flex xs12 v-for="match in matches" :key="match.index" v-else>
       <nuxt-link :to="'/matches/' + match._id">
         <MatchCard :match="match"></MatchCard>
@@ -18,9 +20,10 @@
   import vuex from 'vuex'
   import Loading from '../components/Loading'
   import MatchCard from '../components/match/MatchCard'
+  import NotFound from "../components/NotFound";
 
   export default {
-    components: { MatchCard, Loading },
+    components: {NotFound, MatchCard, Loading},
     middleware: 'loggedin',
     name: 'Matches',
     data() {
@@ -37,17 +40,17 @@
       calculateProgress(total, joined) {
         return ((joined / total) * 100)
       },
-      canJoin(joined, total){
+      canJoin(joined, total) {
         return joined < total
       }
     },
 
-    async mounted(){
+    async mounted() {
       this.loading = true;
       try {
         let matches = await this.$axios.$get("/matches", {params: {status: 3}})
         this.matches = matches.matches
-      } catch(e) {
+      } catch (e) {
         this.showAlert("error In Loading Data")
       }
       this.loading = false;

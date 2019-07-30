@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list class="mb-5">
 
     <v-list-tile to="/profile/edit" avatar>
       <v-list-tile-avatar>
@@ -15,18 +15,38 @@
       <v-list-tile-content>Refer and Earn</v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile @click="" avatar to="/wallet">
+<!--    <v-list-tile @click="" avatar to="/wallet">-->
+<!--      <v-list-tile-avatar>-->
+<!--        <v-icon color="grey darken-2">mdi-wallet</v-icon>-->
+<!--      </v-list-tile-avatar>-->
+<!--      <v-list-tile-content>Wallet</v-list-tile-content>-->
+<!--    </v-list-tile>-->
+
+    <v-list-tile to="/purchase" avatar>
       <v-list-tile-avatar>
-        <v-icon color="grey darken-2">mdi-wallet</v-icon>
+        <v-icon color="grey darken-2">mdi-cart</v-icon>
       </v-list-tile-avatar>
-      <v-list-tile-content>Wallet</v-list-tile-content>
+      <v-list-tile-content>Purchase Faircoins</v-list-tile-content>
     </v-list-tile>
 
+    <v-list-tile to="/redeem" avatar>
+      <v-list-tile-avatar>
+        <v-icon color="grey darken-2">mdi-wallet-giftcard</v-icon>
+      </v-list-tile-avatar>
+      <v-list-tile-content>Redeem Faircoins</v-list-tile-content>
+    </v-list-tile>
     <v-list-tile to="/transactions" avatar>
       <v-list-tile-avatar>
-        <v-icon color="grey darken-2">mdi-history</v-icon>
+        <v-icon color="grey darken-2">mdi-view-list</v-icon>
       </v-list-tile-avatar>
-      <v-list-tile-content>Wallet History</v-list-tile-content>
+      <v-list-tile-content>Wallet Transactions</v-list-tile-content>
+    </v-list-tile>
+
+    <v-list-tile to="/update" avatar>
+      <v-list-tile-avatar>
+        <v-icon color="grey darken-2">mdi-apple-icloud</v-icon>
+      </v-list-tile-avatar>
+      <v-list-tile-content>App Updates</v-list-tile-content>
     </v-list-tile>
 
     <v-list-tile @click="" avatar>
@@ -35,6 +55,7 @@
       </v-list-tile-avatar>
       <v-list-tile-content>About Us</v-list-tile-content>
     </v-list-tile>
+
 
     <v-list-tile @click="logout" avatar>
       <v-list-tile-avatar>

@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-layout row erap>
     <v-flex xs12 v-if="loading">
       <Loading></Loading>
@@ -15,9 +15,8 @@
         </v-card-media>
         <v-card-text>
           <p class="body-1">Now you can earn Money by Inviting Friends to this app.</p>
-          <p class="body-1">For each player you refer, <strong>You'll get Rs. ₹{{ referStatus.perRefer }}/-<sup>*</sup>
-            Instantly after your Friend joins a Paid match</strong> and also your friend will get
-            ₹{{ referStatus.newUserCredit }}/- credited in there account as Signup Bonus</p>
+          <p class="body-1">For each player you refer, <strong>You'll get <faircoin-icon/> {{ referStatus.perRefer }}<sup>*</sup>
+            Instantly after your Friend joins a Paid match</strong></p>
           <v-card flat class="green darken-3 white--text">
             <v-card-text class="text-xs-center title">
               Use The referral Code: <br/>
@@ -59,7 +58,7 @@
               <v-card class="mx-1 blue darken-2 justify-center align-center" dark>
                 <v-card-text class="px-1 text-xs-center">
                     <span>EARNED <br/>
-                        ₹{{ referStatus.totalReferCredit }}
+                        {{ referStatus.totalReferCredit }} FC
                     </span>
                 </v-card-text>
               </v-card>
@@ -79,7 +78,7 @@
           >
             <template v-slot:items="props">
               <td>#{{props.index + 1}} {{ props.item.username }}</td>
-              <td class="text-xs-center">₹{{ props.item.referral.totalReferCredit }}</td>
+              <td class="text-xs-center"><faircoin-icon/>{{ props.item.referral.totalReferCredit }}</td>
               <!--                <td class="text-xs-right">{{ props.item.fat }}</td>-->
               <!--                <td class="text-xs-right">{{ props.item.carbs }}</td>-->
               <!--                <td class="text-xs-right">{{ props.item.protein }}</td>-->
@@ -95,12 +94,13 @@
 <script>
   import Loading from '../components/Loading'
   import { Plugins } from '@capacitor/core'
+  import FaircoinIcon from "../components/FaircoinIcon";
 
   const { Share } = Plugins
 
   export default {
     name: 'refer.vue',
-    components: { Loading },
+    components: {FaircoinIcon, Loading },
     data() {
       return {
         loading: false,

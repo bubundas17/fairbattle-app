@@ -2,17 +2,27 @@
   <v-layout row wrap column>
 
 
-    <v-card class="ma-2" v-if="processing" >
+    <v-card class="ma-2" v-if="processing">
 
       <v-card-actions class="loading justify-center align-center" v-if="success">
         <div>
-          <h1 class="title loadingBox mx-5 text-xs-center"><v-btn icon class="teal" :ripple="false" color="white" dark right><v-icon >mdi-shield-check</v-icon></v-btn>Payment Successful</h1>
+          <h1 class="title loadingBox mx-5 text-xs-center">
+            <v-btn icon class="teal" :ripple="false" color="white" dark right>
+              <v-icon>mdi-shield-check</v-icon>
+            </v-btn>
+            Payment Successful
+          </h1>
         </div>
       </v-card-actions>
 
       <v-card-actions class="loading justify-center align-center" v-else>
         <div>
-          <h1 class="title loadingBox mx-5 text-xs-center"><v-btn icon class="orange darken-3" :loading="true" :ripple="false" color="white" dark right><v-icon >mdi-shield-check</v-icon></v-btn>Processing Payment</h1>
+          <h1 class="title loadingBox mx-5 text-xs-center">
+            <v-btn icon class="orange darken-3" :loading="true" :ripple="false" color="white" dark right>
+              <v-icon>mdi-shield-check</v-icon>
+            </v-btn>
+            Processing Payment
+          </h1>
         </div>
       </v-card-actions>
 
@@ -36,15 +46,15 @@
     </v-card>
 
     <v-card class="ma-2">
-        <v-layout row>
-            <img class="ma-2" :src="require('~/assets/256_encryption-png.png')" height="80px" alt=""/>
-          <v-card-text>
-            <div class="justify-center align-center green--text text--darken-2">
-              <h1 class="title mb-1">SECURE PAYMENTS</h1>
-              <h1 class="body-1">Your payments are protected by 256 bit encryption</h1>
-            </div>
-          </v-card-text>
-        </v-layout>
+      <v-layout row>
+        <img class="ma-2" :src="require('~/assets/256_encryption-png.png')" height="80px" alt=""/>
+        <v-card-text>
+          <div class="justify-center align-center green--text text--darken-2">
+            <h1 class="title mb-1">SECURE PAYMENTS</h1>
+            <h1 class="body-1">Your payments are protected by 256 bit encryption</h1>
+          </div>
+        </v-card-text>
+      </v-layout>
     </v-card>
 
     <v-card class="ma-2">
@@ -61,9 +71,9 @@
 </template>
 
 <script>
-  import { Plugins } from '@capacitor/core'
+  import {Plugins} from '@capacitor/core'
 
-  const { Modals } = Plugins
+  const {Modals} = Plugins;
 
   export default {
     name: 'addMoney',
@@ -75,8 +85,9 @@
     },
     methods: {
       pay() {
-        let self = this
-        let amount = this.$route.query.amount
+        let self = this;
+        let amount = this.$route.query.amount;
+        let offerId = this.$route.query.offerId;
         try {
           let options = {
             key: 'rzp_live_2nxI5C6aYg0wnJ',
@@ -93,36 +104,44 @@
             // },
             notes: {
               username: self.user.username,
-              userId: self.user._id
+              userId: self.user._id,
+              offerId: offerId
             },
             theme: {
-              color: '#232323'
+              color: '#e64a19'
             }
-          }
+          };
 
-          let successCallback = async function(success) {
+          let successCallback = async function (success) {
             // alert('payment_id: ' + success.razorpay_payment_id)
-            // var orderId = success.razorpay_order_id;
             // var signature = success.razorpay_signature;
+            // let orderId = success.razorpay_payment_id;
+            // console.log(success);
             self.processing = true;
             try {
 
               // self.showAlert('success', payment.message)
-              self.$store.dispatch('addMoney', amount)
+              await self.$axios.$post("/payments/razorpay/capture", {
+                amount: self.$route.query.amount,
+                paymentId: success.razorpay_payment_id,
+                userId: self.user._id,
+                offerId: offerId
+              });
+              self.$store.dispatch('reloadProfile');
               self.success = true;
             } catch (e) {
-              self.showAlert('error', 'Failed To Capture!')
+              self.showAlert('error', e)
             }
             // self.processing = false;
             // console.log(success)
-          }
+          };
 
-          let cancelCallback = function(error) {
+          let cancelCallback = function (error) {
             self.showAlert('info', 'Payment cancelled by user. Please retry')
-          }
+          };
 
-          RazorpayCheckout.on('payment.success', successCallback)
-          RazorpayCheckout.on('payment.cancel', cancelCallback)
+          RazorpayCheckout.on('payment.success', successCallback);
+          RazorpayCheckout.on('payment.cancel', cancelCallback);
           RazorpayCheckout.open(options)
         } catch (e) {
           this.showAlert('error', 'Cannot Find Gateway!')
@@ -137,8 +156,8 @@
       }
     },
     watch: {
-      success(value){
-        if(value){
+      success(value) {
+        if (value) {
           let self = this;
           setTimeout(() => {
             self.$router.go(-1)
