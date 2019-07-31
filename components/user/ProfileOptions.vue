@@ -49,11 +49,25 @@
       <v-list-tile-content>App Updates</v-list-tile-content>
     </v-list-tile>
 
-    <v-list-tile @click="" avatar>
+    <v-list-tile href="https://fairbattle.net/about" avatar>
       <v-list-tile-avatar>
         <v-icon color="grey darken-2">mdi-information</v-icon>
       </v-list-tile-avatar>
       <v-list-tile-content>About Us</v-list-tile-content>
+    </v-list-tile>
+
+    <v-list-tile href="https://fairbattle.net/privacy-policy" avatar>
+      <v-list-tile-avatar>
+        <v-icon color="grey darken-2">mdi-information</v-icon>
+      </v-list-tile-avatar>
+      <v-list-tile-content>Trams And Conditions</v-list-tile-content>
+    </v-list-tile>
+
+    <v-list-tile href="https://fairbattle.net/terms-and-condition" avatar>
+      <v-list-tile-avatar>
+        <v-icon color="grey darken-2">mdi-information</v-icon>
+      </v-list-tile-avatar>
+      <v-list-tile-content>Privacy Policy</v-list-tile-content>
     </v-list-tile>
 
 

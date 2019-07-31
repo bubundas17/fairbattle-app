@@ -72,7 +72,8 @@ export default {
   ** Axios module configuration
   */
   axios: {
-    baseURL: "http://192.168.31.18:3001/api/",
+    // baseURL: "http://192.168.31.18:3001/api/",
+    baseURL: "https://fairbattle.net/api/",
     withCredentials: true
     // See https://github.com/nuxt-community/axios-module#options
   },

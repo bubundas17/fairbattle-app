@@ -23,11 +23,6 @@
   </feature>
 
 
-  <feature name="SMSReceive">
-    <param name="android-package" value="com.andreszs.cordova.sms.SMSReceive"/>
-  </feature>
-
-
   <feature name="Whitelist">
     <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin"/>
     <param name="onload" value="true"/>

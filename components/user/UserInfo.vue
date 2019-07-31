@@ -6,8 +6,10 @@
                         :size="50"
                         color="grey lighten-4"
                 >
-                    <img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">
+<!--                    <img src="https://vuetifyjs.com/apple-touch-icon-180x180.png" alt="avatar">-->
+                  <v-icon>account_circle</v-icon>
                 </v-avatar>
+
 
             </v-flex>
             <v-flex xs9>

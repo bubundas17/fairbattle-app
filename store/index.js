@@ -10,10 +10,10 @@ export const state = () => ({
   banned: false,
   token: null,
   pubgUsername: '',
-  ver: '1.0.0',
+  ver: packege.version,
   settings: {
     release: {
-      value: "1.0.0",
+      value: packege.version,
       meta: {}
     }
   }

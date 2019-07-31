@@ -50,11 +50,12 @@
               </template>
             </v-text-field>
 
+<!--            :disabled="!otp"-->
+
             <v-text-field
               label="Enter Otp"
               v-model="otp"
               type="number"
-              :disabled="!otp"
               v-validate="'required|min:5'"
               data-vv-name="otp"
               :error-messages="errors.collect('otp')"
@@ -85,12 +86,21 @@
               v-model="referral"
             >
             </v-text-field>
+            <v-checkbox
+              data-vv-name="agree"
+              v-model="agree"
+              v-validate="'required'"
+              :error-messages="errors.collect('agree')"
+            > <template slot="label"><h2 class="subheading mt-1">
+              I agree to <a href="https://fairbattle.net/terms-and-condition">Trams And Conditions</a> and
+              <a href="https://fairbattle.net/privacy-policy">Privacy Policy</a></h2>
+            </template></v-checkbox>
+
           </form>
 
         </v-card-text>
         <v-card-actions>
-          <v-spacer/>
-          <v-btn flat color="success" dark @click="signup" light>Signup
+          <v-btn flat class="primary"  block dark @click="signup" light>Signup
             <v-icon right>mai-account-plus</v-icon>
           </v-btn>
         </v-card-actions>
@@ -116,6 +126,7 @@
     },
     data() {
       return {
+        agree: '',
         name: '',
         username: '',
         email: '',
@@ -176,24 +187,24 @@
         let self = this;
         try {
           console.log('Trying to register sms');
-          SMSReceive.startWatch();
-          document.addEventListener('onSMSArrive', function (e) {
-            let IncomingSMS = e.data;
-            if (String(IncomingSMS.address).includes("ETRNMT")) {
-              let otp = IncomingSMS.body.match(/\b\d{5}\b/g);
-              self.otp = otp[0];
-
-              self.stopSmsListening()
-            }
-            // console.log(IncomingSMS);
-          });
+          // SMSReceive.startWatch();
+          // document.addEventListener('onSMSArrive', function (e) {
+          //   let IncomingSMS = e.data;
+          //   if (String(IncomingSMS.address).includes("ETRNMT")) {
+          //     let otp = IncomingSMS.body.match(/\b\d{5}\b/g);
+          //     self.otp = otp[0];
+          //
+          //     self.stopSmsListening()
+          //   }
+          //   // console.log(IncomingSMS);
+          // });
         } catch (e) {
           console.warn('Error In Listening SMS');
         }
       },
       stopSmsListening() {
         try {
-          SMSReceive.stopWatch();
+          // SMSReceive.stopWatch();
         } catch (e) {
         }
       },

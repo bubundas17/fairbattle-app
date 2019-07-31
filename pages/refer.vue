@@ -138,11 +138,11 @@
         try {
           let shareRet = await Share.share({
             title: 'Play PUBG and Earn Money!',
-            text: 'Play PUBG Tournaments and earn money, only at eTournaments app!\r\nYou are Invited! Use the promo code '
-              + this.user.username + ' on Sign Up and Get ₹5 Credit for your next Match.' +
+            text: 'Play PUBG Tournaments and earn money, only at FairBattle app!\r\nYou are Invited! Use the promo code '
+              + this.user.username + ' on Sign Up and Get 15 Credit for your next Match.' +
               '\r\nClick on the link to download.' +
               '\r\n\r\nIMPORTANT: Don\'t Forget to Use Promo code ' + this.user.username +'\r\n',
-            url: 'https://etournaments.in/latest.apk',
+            url: 'https://fairbattle.net',
             dialogTitle: 'Share with Friends'
           })
         } catch (e) {
