@@ -11,7 +11,7 @@
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true"
     >
-
+    <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/push_notification" />
     <activity
       android:name="net.fairbattle.app.MainActivity"
       android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"

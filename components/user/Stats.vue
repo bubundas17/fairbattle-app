@@ -3,7 +3,7 @@
     <v-flex xs4>
       <v-card class="mx-1 greenBg darken-2 elevation-4" dark>
         <v-card-text class="px-1 text-xs-center">
-          MONEY <br> ₹{{ user.credits }}
+          WALLET <br> {{ user.credits }} FC
         </v-card-text>
       </v-card>
     </v-flex>
@@ -18,7 +18,7 @@
       <v-card class="mx-1 blueBg darken-2 justify-center align-center" dark>
         <v-card-text class="px-1 text-xs-center">
                     <span>EARNED <br/>
-                        ₹{{ user.earned }}
+                        {{ user.earned }} FC
                     </span>
         </v-card-text>
       </v-card>

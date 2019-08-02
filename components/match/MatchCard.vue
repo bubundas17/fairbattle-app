@@ -57,8 +57,39 @@
         {{ match.joined }}/{{ match.maxPlayers }}
       </v-chip>
 
-      <JoinMatchDialog :can-join="canJoin" :dialog="dialog" :join-match="joinMatch" :match="match"
-                    :pubg-username="pubgUsername" :remember-username="rememberUsername" :joinBtnText="joinBtnText"/>
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <template v-slot:activator="">
+          <v-btn flat @click.prevent="dialog = true" :class=" canJoin ? 'teal' :  match.userJoined ? 'green':'red'"
+                 class="ma-1" dark
+                 :disabled="!canJoin"> {{
+            joinBtnText }}
+          </v-btn>
+        </template>
+
+        <v-card v-if="match.entryFees <= this.user.credits">
+          <v-card-title class="headline">Join Match</v-card-title>
+          <v-card-text>
+            <p class="body-1">Please Enter your PUBG Username To Join the match.</p>
+            <v-text-field label="Pubg Username" v-model="pubgUsername"></v-text-field>
+            <p class="body-1">Please Make sure the username is correct.</p>
+            <v-checkbox label="Remember This Username" v-model="rememberUsername"></v-checkbox>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="red darken-1" flat @click="dialog = false">Cancel</v-btn>
+            <v-btn color="green darken-1" flat @click="joinMatch">Join Match</v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-card v-else>
+          <v-card-title class="title secondary white--text">Not enough credits</v-card-title>
+          <v-card-text>
+            <p class="body-1">Sorry but you do not have enough credits to join the match.
+              You need {{ match.entryFees - this.user.credits }} more Faircoins  to join the match.</p>
+            <p class="body-2">Please purchase remaining Faircoins and join the match.</p>
+          </v-card-text>
+          <v-card-actions><v-btn block flat color="primary" to="/purchase"><v-icon left>mdi-cart</v-icon>Buy Coins</v-btn></v-card-actions>
+        </v-card>
+      </v-dialog>
 
     </v-card-actions>
     <template v-if="showActions">
@@ -114,7 +145,7 @@
           if (this.rememberUsername){
             this.$store.commit("pubgUsername", this.pubgUsername)
           }
-          await this.$axios.$post('/matches/' + this.match._id + '/join', { pubgUsername: this.pubgUsername })
+          await this.$axios.$post('/matches/' + this.match._id + '/join', { pubgUsername: this.pubgUsername });
           this.dialog = false;
           try {
             await LocalNotifications.schedule({
@@ -134,8 +165,9 @@
           } catch (e) {
 
           }
+          this.$emit("reload");
+          this.showAlert('success', 'Successfully Joined The match');
 
-          this.showAlert('success', 'Successfully Joined The match')
         } catch (e) {
 
           // console.log(e.response.data.message)

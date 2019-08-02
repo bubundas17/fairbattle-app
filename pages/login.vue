@@ -14,9 +14,8 @@
           </v-text-field>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="info" flat dark to="/signup"><v-icon left>mdi-account-plus</v-icon>Create An Account</v-btn>
-          <v-spacer/>
-          <v-btn flat color="success" dark @click="login" :loading="loading" :disabled="loading">Login <v-icon right>mdi-login</v-icon></v-btn>
+
+          <v-btn color="primary" block dark @click="login">Login<v-icon right>mdi-login</v-icon></v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -24,9 +23,11 @@
     <v-flex xs12>
 <!--      <v-card class="ma-2 login-box" flat>-->
         <v-card-actions>
+          <v-btn color="info" block dark to="/signup"><v-icon left>mdi-account-plus</v-icon>Create An Account</v-btn>
 <!--          <v-btn color="green"  block dark to="/signup">Create An Account</v-btn>-->
-          <v-btn color="primary" block large dark to="/forgotpass">Password Reset<v-icon right>mdi-lock-reset</v-icon></v-btn>
-<!--          <v-btn color="primary" block large dark @click="test">Test<v-icon right>mdi-lock-reset</v-icon></v-btn>-->
+          <v-btn block color="success" dark to="/forgotpass" :loading="loading" :disabled="loading">Forgot Pass?<v-icon right>mdi-lock-reset</v-icon></v-btn>
+
+          <!--          <v-btn color="primary" block large dark @click="test">Test<v-icon right>mdi-lock-reset</v-icon></v-btn>-->
 <!--          <v-btn color="orange" flat block dark @click="test">test</v-btn>-->
         </v-card-actions>
 <!--      </v-card>-->

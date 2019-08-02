@@ -17,7 +17,7 @@
             <v-text-field
               label="Choose Username"
               v-model="username"
-              v-validate="'required|min:6'"
+              v-validate="{required: true, min: 6, max: 32, regex: /^[a-zA-Z0-9._]+$/}"
               data-vv-name="username"
               :error-messages="errors.collect('username')"
               required

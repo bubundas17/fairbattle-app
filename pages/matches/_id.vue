@@ -115,21 +115,23 @@
       }
     },
     async mounted() {
-      this.loading = true
-      try {
-        let match = await this.$axios.$get('/matches/' + this.$route.params.id)
-        this.match = match.match
-      } catch (e) {
-        this.showAlert('error', 'Error in loading Data.')
-      }
-      this.loading = false
+      this.load()
     },
 
     methods: {
       calculateProgress(total, joined) {
         return ((joined / total) * 100)
+      },
+      async load(){
+        this.loading = true;
+        try {
+          let match = await this.$axios.$get('/matches/' + this.$route.params.id)
+          this.match = match.match
+        } catch (e) {
+          this.showAlert('error', 'Error in loading Data.')
+        }
+        this.loading = false
       }
-
     },
     computed: {
       participated() {

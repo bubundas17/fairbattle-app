@@ -6,7 +6,7 @@
                 <v-text-field v-model="userdata.name" label="Name" required/>
                 <v-text-field v-model="userdata.username" label="Username" disabled/>
                 <v-text-field v-model="userdata.email" label="Email" required/>
-                <v-text-field v-model="userdata.phone" label="Phone Number" type="number" required/>
+                <v-text-field v-model="userdata.phone" label="Phone Number" type="number" disabled required/>
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>

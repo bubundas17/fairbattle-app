@@ -7,12 +7,13 @@
     <v-card class="ma-1">
       <v-card-title class="primary white--text"><h1 class="title">Transactions</h1></v-card-title>
       <v-expansion-panel>
-        <template v-for="transaction in transactions">
+        <template v-for="transaction in cTransactions">
           <v-divider></v-divider>
           <v-expansion-panel-content dark class="mx-2" :key="transaction._id"
-                                     :class="txnColor(transaction)">
+                                     :class="transaction.color">
+
             <template v-slot:header>
-              <v-card flat :class="txnColor(transaction)" dark>
+              <v-card flat :class="transaction.color" dark>
                 <v-card-actions>{{transaction.title}}
                   <v-spacer/>
                   {{ transaction.amount }}
@@ -24,10 +25,10 @@
               <v-card-text>
                 <v-layout row wrap>
                   <v-flex xs6 class="body-2">
-                    Status: {{ statusText(transaction) }}
+                    Status: {{ transaction.status | tnxStatusText}}
                   </v-flex>
                   <v-flex xs6>
-                    <span class="body-2">TXN ID: {{ transaction.txnId }}</span>
+                    <span class="body-2">TXN ID: #{{ transaction.txnId }}</span>
                   </v-flex>
                   <v-flex xs6 class="body-2">
                     Date:
@@ -37,9 +38,8 @@
                   </v-flex>
                 </v-layout>
                 <p class="body-2" v-if="transaction.note">
-                  More info:
+                  More info: {{ transaction.note }}
                 </p>
-                <p class="body-1" v-if="transaction.note">{{ transaction.note }}</p>
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -73,20 +73,19 @@
           return 'green'
         }
       },
-      statusText(txn) {
-        switch (txn.status) {
-          case 1:
-            return 'SUCCESS'
-          case 2:
-            return 'PENDING'
-          case 3:
-            return 'FAILED'
-          case 4:
-            return 'CANCELLED'
-        }
-      }
+
     },
     computed: {
+      cTransactions(){
+        let self = this;
+        return this.transactions.map(txn => {
+          let color = self.txnColor(txn);
+          return {
+            color,
+            ...txn
+          }
+        })
+      }
       // ...vuex.mapGetters(['transactions'])
     },
     async mounted() {

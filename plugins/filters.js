@@ -7,3 +7,16 @@ Vue.filter("formatDate", (val) => {
 Vue.filter("fromNow", (val) => {
     return moment(val).fromNow()
 });
+
+Vue.filter("tnxStatusText", val => {
+    switch (val) {
+      case 1:
+        return 'SUCCESS';
+      case 2:
+        return 'PENDING';
+      case 3:
+        return 'FAILED';
+      case 4:
+        return 'CANCELLED';
+    }
+});
